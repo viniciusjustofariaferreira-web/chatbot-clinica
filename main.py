@@ -13,21 +13,25 @@ sessions = {}
 @app.route("/webhook", methods=["POST"])
 def webhook():
     print("WEBHOOK RECEBIDO!")
-    print("BODY:", request.data)
     try:
         data = request.json
+        print("DADOS:", data)
+
         if not data:
             return jsonify({"status": "ok"})
 
         phone = data.get("phone", "")
         message = data.get("text", {}).get("message", "")
 
+        print("PHONE:", phone)
+        print("MESSAGE:", message)
+
         if not phone or not message:
             return jsonify({"status": "ok"})
 
         if phone not in sessions:
             response = requests.post(
-                f"https://typebot.io/api/v1/typebots/{TYPEBOT_ID}/whatsapp/start",
+                f"https://typebot.io/api/v1/typebots/{TYPEBOT_ID}/startChat",
                 json={"message": message},
                 headers={"Content-Type": "application/json"}
             )
@@ -46,7 +50,7 @@ def webhook():
             return jsonify({"status": "ok"})
 
         result = response.json()
-        
+
         if phone not in sessions:
             sessions[phone] = result.get("sessionId", "")
 
@@ -58,13 +62,14 @@ def webhook():
                     for child in bloco.get("children", []):
                         texto = child.get("text", "")
                         if texto:
+                            print("ENVIANDO:", texto)
                             requests.post(
                                 f"https://api.z-api.io/instances/{ZAPI_INSTANCE}/token/{ZAPI_TOKEN}/send-text",
                                 json={"phone": phone, "message": texto}
                             )
 
     except Exception as e:
-        print("Erro:", str(e))
+        print("ERRO:", str(e))
 
     return jsonify({"status": "ok"})
 
