@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 ZAPI_INSTANCE = "3F46651F7F77E1A80832526F0C5E2E11"
 ZAPI_TOKEN = "6221D56E388D5D8317845E87"
-TYPEBOT_ID = "cmpy9hkn900000bjcquk5j4sy"
+TYPEBOT_ID = "assistente-cl-nica-teste-uk5j4sy"
 
 sessions = {}
 
