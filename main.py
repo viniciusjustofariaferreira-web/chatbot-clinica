@@ -21,8 +21,11 @@ def webhook():
             return jsonify({"status": "ok"})
 
         phone = data.get("phone", "")
-        message = data.get("text", {}).get("message", "")
+message = data.get("text", {}).get("message", "")
+is_from_me = data.get("fromMe", False)
 
+if is_from_me:
+    return jsonify({"status": "ok"})
         print("PHONE:", phone)
         print("MESSAGE:", message)
 
