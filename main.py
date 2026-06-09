@@ -12,6 +12,8 @@ sessions = {}
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
+    print("WEBHOOK RECEBIDO!")
+    print("BODY:", request.data)
     try:
         data = request.json
         if not data:
